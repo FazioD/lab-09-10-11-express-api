@@ -1,4 +1,3 @@
-
 'use strict';
 
 // set env varibales
@@ -26,10 +25,12 @@ describe('testing module note-router', function(){
     }
     done();
   });
+});
 
   after((done) => {
     if (server.isRunning){
       server.close(() => {
+        server.isRunning = false;
         console.log('shutdown the server');
         done();
       });
@@ -38,7 +39,8 @@ describe('testing module note-router', function(){
     done();
   });
 
-  describe('testing POST /api/note', function(){
+//Testing POST//
+  describe('testing method POST /api/note', function(){
     after((done) => {
       storage.pool = {};
       done();
@@ -54,12 +56,22 @@ describe('testing module note-router', function(){
         done();
       });
     });
-  });
 
+  describe('testing method POST with no body', function(){
+    request.post(baseUrl)
+    .end((err, res) => {
+      expect(res.status).to.equal(400);
+      expect(res.text).to.equal('bad request');
+      done();
+      });
+    });
 
+   it('should return \"bad request\"', () =>{
+     expect(this.res.text).to.equal('\"bad request\"');
+   });
 
-
-  describe('testing GET /api/note', function(done){
+   //testing GET//
+  describe('testing GET /api/note', function(){
     before((done) => {
       this.tempNote = new Note('test data');
       storage.pool.note = {};
@@ -81,5 +93,17 @@ describe('testing module note-router', function(){
         done();
       });
     });
-  });
-});
+
+  describe('testing method GET with no id', function(){
+    after((done) => {
+      storage.pool = {};
+      done();
+    });
+
+   it('should return a status 400', ()=>{
+     expect(this.res.status).to.equal(400);
+   });
+
+   it('should return \"bad request\"', () =>{
+     expect(this.res.text).to.equal('\"bad request\"');
+   });

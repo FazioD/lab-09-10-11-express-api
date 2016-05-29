@@ -1,11 +1,18 @@
 'use strict';
+//node modules
+//npm modules
+//app modules
+//global
 
+//we are requiring the Router function from the express module//
 const Router = require('express').Router;
 const noteRouter = module.exports =  new Router();
 const debug = require('debug')('note:note-router');
+const JsonParser = require('body-parser').json();
 const AppError = require('../lib/app-error');
 const storage = require('../lib/storage');
 const Note = require('../model/note');
+
 
 function createNote(reqBody){
   debug('createNote');
@@ -24,7 +31,7 @@ function createNote(reqBody){
   });
 }
 
-//adding an update function to later use on my PUT request//
+//adding an update function to later use on PUT request//
 function updateNote(reqBody){
   debug('updateNote');
   return new Promise(function(resolve, reject){
@@ -43,7 +50,7 @@ function updateNote(reqBody){
 }
 
 //adding POST request//
-noteRouter.post('/', function(req, res){
+noteRouter.post('/', JsonParser, function(req, res) {
   debug('hit endpoint /api/note POST');
   createNote(req.body).then(function(note){
     res.status(200).json(note);
@@ -58,7 +65,7 @@ noteRouter.post('/', function(req, res){
 });
 
 //adding GET request//
-noteRouter.get('/:id', function(req, res){
+noteRouter.get('/:id', JsonParser, function(req, res){
   debug('hit endpoint /api/note GET');
   storage.fetchItem('note', req.params.id).then(function(note){
     res.status(200).json(note);
@@ -72,8 +79,8 @@ noteRouter.get('/:id', function(req, res){
   });
 });
 
-//Adding PUT request//
-noteRouter.put('/:id/edit', function(req, res){
+//adding PUT request//
+noteRouter.put('/:id/edit', JsonParser, function(req, res){
   debug('hit endpoint /api/note PUT');
   updateNote(req.body).then(function(id){
     res.status(200).json(id);
@@ -86,3 +93,5 @@ noteRouter.put('/:id/edit', function(req, res){
     res.status(500).send('interal server error');
   });
 });
+
+//inserting delete request here//

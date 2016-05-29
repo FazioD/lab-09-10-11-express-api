@@ -13,15 +13,17 @@ gulp.task('eslint', function(){
   .pipe(eslint());
 });
 
-gulp.task('default', function(){
+gulp.task('test', function(){
   return gulp.src('test.js', {read: false})
   .pipe(mocha({reporter: 'nyan'}));
 });
 
-gulp.task('start', function(){
+gulp.task('nodemon', function(){
   nodemon({
     script: 'server.js'
   , ext: 'js.html'
   , env: { 'NODE_ENV': 'deployment'}
   });
 });
+
+gulp.task('default', ['eslint', 'test', 'nodemon']);

@@ -2,6 +2,8 @@
 
 const debug = require('debug')('note:app-error');
 
+//below we are defining a constructor and exporting it//
+//creating 3 proprties to pass through our function//
 const AppError = module.exports = function(message, statusCode, responseMessage){
   debug('creating app error');
   Error.call(this);

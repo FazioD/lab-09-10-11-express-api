@@ -32,20 +32,20 @@ function createNote(reqBody){
 }
 
 //adding an update function to later use on PUT request//
-function updateNote(reqBody){
+function updateNote(data){
   debug('updateNote');
   return new Promise(function(resolve, reject){
-    var id;
     try {
-      id = new id(reqBody.content);
+      storage.fetchItem('note', data.id).then(function(note){
+        note.content = data.content;
+        resolve(note);
+      }).catch(function(err){
+        reject(err);
+      });
     } catch (err) {
       reject(err);
     }
-    storage.fetchItem('note', id).then(function(id){
-      resolve(id);
-    }).catch(function(err){
-      reject(err);
-    });
+
   });
 }
 
@@ -65,7 +65,7 @@ noteRouter.post('/', JsonParser, function(req, res) {
 });
 
 //adding GET request//
-noteRouter.get('/:id', JsonParser, function(req, res){
+noteRouter.get('/:id', function(req, res){
   debug('hit endpoint /api/note GET');
   storage.fetchItem('note', req.params.id).then(function(note){
     res.status(200).json(note);
@@ -80,10 +80,10 @@ noteRouter.get('/:id', JsonParser, function(req, res){
 });
 
 //adding PUT request//
-noteRouter.put('/:id/edit', JsonParser, function(req, res){
+noteRouter.put('/', JsonParser, function(req, res){
   debug('hit endpoint /api/note PUT');
-  updateNote(req.body).then(function(id){
-    res.status(200).json(id);
+  updateNote(req.body).then(function(note){
+    res.status(200).json(note);
   }).catch(function(err){
     console.error(err.message);
     if(AppError.isAppError(err)){

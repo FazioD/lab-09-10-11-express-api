@@ -78,6 +78,7 @@ describe('testing module note-router', function(){
       storage.pool.note[this.tempNote.id] = this.tempNote;
       done();
     });
+  });
 
     after((done) => {
       storage.pool = {};
@@ -99,11 +100,12 @@ describe('testing module note-router', function(){
       storage.pool = {};
       done();
     });
+  });
 
-   it('should return a status 400', ()=>{
+   it('should return a status 400', ()=> {
      expect(this.res.status).to.equal(400);
    });
 
-   it('should return \"bad request\"', () =>{
+   it('should return \"bad request\"', () => {
      expect(this.res.text).to.equal('\"bad request\"');
    });

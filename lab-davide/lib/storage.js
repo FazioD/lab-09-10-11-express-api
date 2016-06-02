@@ -19,8 +19,10 @@ exports.setItem = function(schema, item){
 };
 
 exports.fetchItem = function(schema, id){
+  console.log('hello');
   debug('fetchItem');
   return new Promise((resolve, reject) => {
+    console.log('inside promise');
     if (!this.pool[schema]){
       var err = AppError.error404('storage schema not found');
       return reject(err);
@@ -29,6 +31,7 @@ exports.fetchItem = function(schema, id){
       err;
       return reject(err);
     }
+    console.log('resolve');
     resolve(this.pool[schema][id]);
   });
 };
@@ -50,7 +53,3 @@ exports.deleteItem = function(schema, id){
     resolve(true);
   });
 };
-
-//
-// this.pool[schema][id].content = item.content;
-// resolve(this.pool)[sc]

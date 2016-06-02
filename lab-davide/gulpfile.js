@@ -10,7 +10,8 @@ const paths = ['*./js', 'lib/*.js', 'model/*.js;', 'test/*.js', 'route/*.js'];
 
 gulp.task('eslint', function(){
   gulp.src(paths)
-  .pipe(eslint());
+  .pipe(eslint())
+  .pipe(eslint.format());
 });
 
 gulp.task('test', function(){

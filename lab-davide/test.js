@@ -63,7 +63,7 @@ describe('testing POST /api/note', function(){
 
   //testing POST 400//
 describe('testing POST with no body', function(){
-  it('should return with no body', function(done){
+  it('should return a bad request', function(done){
     request.post(baseUrl)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -151,55 +151,60 @@ describe('testing POST with no body', function(){
 
   //testing PUT 200//
 
-  describe('testing PUT /api/note', function() {
-    before((done) => {
-      this.tempNote = new Note('test data');
-      storage.setItem('note', this.tempNote);
-      done();
-    });
-
-    after((done) => {
-      storage.pool = {};
-      done();
-    });
-    it('should return note', (done) => {
-      request.put(`${baseUrl}/${this.tempNote.id}`)
-      .end((err, res) => {
-        // it('should return a 200 and a note', () => {
-        expect(res.status).to.equal(200);
-        expect(res.body.content).to.equal(this.tempNote.content);
-        expect(res.body.id).to.equal(this.tempNote.id);
-        done();
-        // });
-
-      });
-
-    });
+describe('testing PUT /api/note', function() {
+  before((done) => {
+    this.tempNote = new Note('test data');
+    storage.setItem('note', this.tempNote);
+    done();
   });
+});
+// describe('testing PUT /api/note', function() {
+//   before((done) => {
+//     this.tempNote = new Note('test data');
+//     storage.setItem('note', this.tempNote);
+//     done();
+//   });
+
+  after((done) => {
+    storage.pool = {};
+    done();
+  });
+  it('should return note.id', (done) => {
+    request.put(`${baseUrl}/`)
+      .send(`${this.tempNote.id}`)
+      .end((err, res) => {
+        it('should return a 200 and a note', () => {
+          expect(res.status).to.equal(200);
+          expect(res.body.content).to.equal(this.tempNote.content);
+          expect(res.body.id).to.equal(this.tempNote.id);
+        });
+      });
+    done();
+  });
+});
 
 
   //testing PUT 400//
-  describe('testing PUT /api/note with a bad request', function(){
-    before((done) => {
-      this.tempNote = new Note('test data');
-      storage.setItem('note');
-      done();
-    });
+describe('testing PUT /api/note with a bad request', function(){
+  before((done) => {
+    this.tempNote = new Note('test data');
+    storage.setItem('note');
+    done();
+  });
 
-    after((done) => {
-      storage.pool = {};
-      done();
-    });
+  after((done) => {
+    storage.pool = {};
+    done();
+  });
 
-    it('should return a bad request', (done) => {
-      request.get(`${baseUrl}`)
+  it('should return a bad request', (done) => {
+    request.get(`${baseUrl}`)
        .end(() => {
          it('should return a 400 error and bad request', () => {
            expect(this.res.status).to.equal(400);
            expect(this.res.text).to.equal('bad request');
          });
        });
-      done();
-    });
+    done();
   });
 });

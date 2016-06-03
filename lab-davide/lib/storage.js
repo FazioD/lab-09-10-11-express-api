@@ -36,6 +36,27 @@ exports.fetchItem = function(schema, id){
   });
 };
 
+exports.updateItem = function(schema, id, item){
+  debug('updateItem');
+  return new Promise((resolve, reject) => {
+    if (!this.pool[schema]){
+      var err = AppError.error404('storage schema not found');
+      return reject(err);
+    }
+    if (!this.pool[schema][id]){
+      var idErr = AppError.error404('storage id not found');
+      return reject(idErr);
+    }
+    if(!item){
+      var itemErr = AppError.error404('storage item not given');
+      return reject(itemErr);
+    }
+
+    resolve(this.pool[schema][id]);
+  });
+};
+
+
 
 
 exports.deleteItem = function(schema, id){

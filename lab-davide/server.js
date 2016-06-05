@@ -1,20 +1,25 @@
 'use strict';
 //the name space of the app in the instance below is note//
+
+//npm modules//
 const debug =require('debug')('note: server');
 const express  = require('express');
-const bodyParser = require('body-parser');
+const morgan = require('morgan');
 
+//app modules//
 const noteRouter = require('./route/note-router');
+const errorResponse = require('./lib/error-response');
 const port = process.env.PORT || 3000;
 const app = express();
 
-app.use(bodyParser.json());
 
-
+//enabling middle ware//
+app.use(morgan('dev'));
+app.use(errorResponse);
 
 app.use('/api/note', noteRouter);
 
-// res.send(JSON.stringify(id))//
+
 //star represents matching all routes//
 app.all('*', function(req, res) {
   debug('*404');

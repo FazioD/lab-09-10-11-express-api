@@ -9,7 +9,6 @@ const Router = require('express').Router;
 const noteRouter = module.exports = new Router();
 const debug = require('debug')('note:note-router');
 const JsonParser = require('body-parser').json();
-const AppError = require('./../lib/app-error');
 const storage = require('./../lib/storage');
 const Note = require('./../model/note');
 
@@ -31,27 +30,6 @@ function createNote(reqBody) {
   });
 }
 
-//adding an update function to later use on PUT request//
-// function updateNote(schema, id, data) {
-//   debug('updateNote');
-//   return new Promise(function(resolve, reject) {
-//     try {
-//       console.log('please work');
-//       storage.fetchItem('note', data.id).then(function(note) {
-//         console.log('idiot');
-//         note.content = data.content;
-//         resolve(note);
-//       }).catch(function(err) {
-//         console.log('happy');
-//         reject(err);
-//       });
-//     } catch (err) {
-//       reject(err);
-//     }
-//
-//   });
-// }
-
 //adding POST request//
 noteRouter.post('/', JsonParser, function(req, res) {
   debug('hit endpoint /api/note POST');
@@ -59,11 +37,13 @@ noteRouter.post('/', JsonParser, function(req, res) {
     res.status(200).json(note);
   }).catch(function(err) {
     console.error(err.message);
-    if (AppError.isAppError(err)) {
-      res.status(err.statusCode).send(err.responseMessage);
-      return;
-    }
-    res.status(500).send('interal server error');
+    res.sendError(err);
+    // if (AppError.isAppError(err)) {
+
+    //   res.status(err.statusCode).send(err.responseMessage);
+    //   return;
+    // }
+    // res.status(500).send('interal server error');
   });
 });
 
@@ -75,11 +55,12 @@ noteRouter.get('/:id', function(req, res) {
     res.status(200).json(note);
   }).catch(function(err) {
     console.error(err.message);
-    if (AppError.isAppError(err)) {
-      res.status(err.statusCode).send(err.responseMessage);
-      return;
-    }
-    res.status(500).send('interal server error');
+    res.sendError(err);
+    // if (AppError.isAppError(err)) {
+    //   res.status(err.statusCode).send(err.responseMessage);
+    //   return;
+    // }
+    // res.status(500).send('interal server error');
   });
 });
 
@@ -90,11 +71,12 @@ noteRouter.put('/:id', JsonParser, function(req, res) {
     res.status(200).json(note);
   }).catch(function(err) {
     console.error(err.message);
-    if (AppError.isAppError(err)) {
-      res.status(err.statusCode).send(err.responseMessage);
-      return;
-    }
-    res.status(500).send('interal server error');
+    res.sendError(err);
+    // if (AppError.isAppError(err)) {
+    //   res.status(err.statusCode).send(err.responseMessage);
+    //   return;
+    // }
+    // res.status(500).send('interal server error');
   });
 });
 //inserting delete request here. Take an id, go and delete, and respond.//
@@ -103,10 +85,11 @@ noteRouter.delete('/:id', function(req, res) {
     res.status(200).json(note);
   }).catch(function(err) {
     console.error(err.message);
-    if (AppError.isAppError(err)) {
-      res.status(err.statusCode).send(err.responseMessage);
-      return;
-    }
-    res.status(500).send('internal server error');
+    res.sendError(err);
+    // if (AppError.isAppError(err)) {
+    //   res.status(err.statusCode).send(err.responseMessage);
+    //   return;
+    // }
+    // res.status(500).send('internal server error');
   });
 });

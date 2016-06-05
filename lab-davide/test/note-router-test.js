@@ -14,11 +14,11 @@ const port = process.env.PORT || 3000;
 const baseUrl = `localhost:${port}/api/note`;
 
 //server is running//
-describe('testing module note-router', function(){
+
+describe('testing module note-router', function() {
   before((done) => {
-    if (!server.isRunning){
+    if (!server.isRunning) {
       server.listen(port, () => {
-        server.isRunning = true;
         console.log('server running on port', port);
         done();
       });
@@ -28,12 +28,15 @@ describe('testing module note-router', function(){
   });
 });
 
+
+
 //server is shutting down//
+
 after((done) => {
-  if (server.isRunning){
+  if (server.isRunning) {
     server.close(() => {
       server.isRunning = false;
-      console.log('shuting down the server');
+      console.log('shutting doen the server');
       done();
     });
     return;
@@ -41,7 +44,9 @@ after((done) => {
   done();
 });
 
+
 //Testing POST 200//
+
 describe('testing POST /api/note', function(){
   describe('a successful post', function(){
     after((done) => {
@@ -62,7 +67,8 @@ describe('testing POST /api/note', function(){
 });
 
   //testing POST 400//
-describe('testing POST with no body', function(){
+
+describe('testing POST with no body', function() {
   it('should return with no body', function(done){
     request.post(baseUrl)
       .end((err, res) => {

@@ -13,8 +13,8 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 
-//enabling middle ware//
-//app.use(morgan('dev'));
+// enabling middle ware//
+app.use(morgan('dev'));
 app.use(errorResponse);
 
 app.use('/api/note', noteRouter);

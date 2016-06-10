@@ -3,8 +3,8 @@
 const debug = require('debug')('note:error-response');
 const AppError = require('./app-error');
 
-module.exports = function (req, res,next) {
-  res.SendError = function(err){
+module.exports = function (req, res, next) {
+  res.sendError = function(err) {
     debug('SendError');
     console.error(err.message);
     if(AppError.isAppError(err)) {

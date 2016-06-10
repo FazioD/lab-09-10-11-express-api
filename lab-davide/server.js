@@ -14,7 +14,7 @@ const app = express();
 
 
 //enabling middle ware//
-app.use(morgan('dev'));
+//app.use(morgan('dev'));
 app.use(errorResponse);
 
 app.use('/api/note', noteRouter);

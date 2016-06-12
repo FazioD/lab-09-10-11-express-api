@@ -9,7 +9,6 @@ const request = require('superagent');
 const server = require('../server');
 const storage = require('../lib/storage');
 const Note = require('../model/note');
-const uuid = require('node-uuid');
 // setup globals add require modules dependent on globals//
 const port = process.env.PORT || 3000;
 const baseUrl = `localhost:${port}/api/note`;
@@ -17,7 +16,6 @@ const baseUrl = `localhost:${port}/api/note`;
 //server is running//
 
 describe('testing module note-router', function() {
-  uuid;
   before((done) => {
     if (!server.isRunning) {
       server.listen(port, () => {

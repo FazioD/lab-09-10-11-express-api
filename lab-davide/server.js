@@ -1,5 +1,5 @@
 'use strict';
-//the name space of the app in the instance below is note//
+
 
 //npm modules//
 const debug =require('debug')('note: server');
@@ -9,6 +9,8 @@ const morgan = require('morgan');
 //app modules//
 const noteRouter = require('./route/note-router');
 const errorResponse = require('./lib/error-response');
+
+//env variables//
 const port = process.env.PORT || 3000;
 const app = express();
 

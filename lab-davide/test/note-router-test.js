@@ -1,7 +1,5 @@
 'use strict';
 
-// set env varibales
-// require node modules
 // require npm modules
 const expect = require('chai').expect;
 const request = require('superagent');
@@ -9,7 +7,7 @@ const request = require('superagent');
 const server = require('../server');
 const storage = require('../lib/storage');
 const Note = require('../model/note');
-// setup globals add require modules dependent on globals//
+// setting up env variables//
 const port = process.env.PORT || 3000;
 const baseUrl = `localhost:${port}/api/note`;
 
